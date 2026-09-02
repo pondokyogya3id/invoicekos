@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Invoice & Kwitansi Kos</title>
+    <title>Sistem Invoice & Kwitansi Kos - Pondok Yogya 3</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #f0f4f8;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -32,23 +32,23 @@
             background: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             flex: 1;
             min-width: 350px;
             max-width: 450px;
             height: fit-content;
         }
-        .form-panel h3 { color: #2c3e50; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;}
+        .form-panel h3 { color: #0194f3; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;}
         .form-group { margin-bottom: 15px; }
-        label { font-weight: 600; display: block; margin-bottom: 5px; color: #444; font-size: 13px;}
+        label { font-weight: 600; display: block; margin-bottom: 5px; color: #333; font-size: 13px;}
         input, select { width: 100%; padding: 10px; border: 1px solid #ccd1d9; border-radius: 6px; box-sizing: border-box; font-size: 14px;}
         .row-group { display: flex; gap: 10px; }
         .row-group .form-group { flex: 1; }
         
         .btn-print {
-            width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
+            width: 100%; padding: 12px; background-color: #ff5e1f; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
         }
-        .btn-print:hover { background-color: #219a52; }
+        .btn-print:hover { background-color: #e04a11; }
 
         /* --- STYLING INVOICE / PDF PREVIEW (Sisi Kanan) --- */
         .invoice-wrapper {
@@ -63,7 +63,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             width: 210mm;
             min-width: 210mm;
-            height: 297mm; /* Format A4 */
+            height: 297mm;
             box-sizing: border-box;
             color: #333;
             font-family: Arial, sans-serif;
@@ -79,14 +79,14 @@
             margin-bottom: 30px;
         }
         
-        .inv-logo h1 { margin: 0; color: #2c3e50; font-size: 32px; letter-spacing: 1px; }
-        .inv-logo p { margin: 5px 0 0 0; color: #7f8c8d; font-size: 14px; }
+        .inv-logo { flex: 0 0 35%; }
+        .inv-logo img { max-width: 100%; max-height: 120px; object-fit: contain; }
 
         .inv-header-right {
-            flex: 0 0 50%;
-            background-color: #2c3e50;
+            flex: 0 0 55%;
+            background-color: #053b0e;
             border-radius: 8px;
-            padding: 20px 25px;
+            padding: 25px 30px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -94,28 +94,28 @@
             box-sizing: border-box;
         }
 
-        .inv-title { color: white; font-size: 24px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; text-align: right;}
-        .inv-status { background-color: white; padding: 6px 15px; border-radius: 4px; font-weight: bold; font-size: 14px; color: #333;}
-        .text-belum { color: #e74c3c; }
-        .text-lunas { color: #27ae60; }
+        .inv-title { color: white; font-size: 26px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; text-align: right;}
+        .inv-status { background-color: white; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 14px; color: #333;}
+        .text-belum { color: #cc0000; }
+        .text-lunas { color: #008000; }
 
         /* Detail Information */
         .inv-info { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; line-height: 1.6;}
         .inv-info-box { width: 48%; }
-        .inv-info-box strong { display: inline-block; width: 110px; color: #2c3e50; }
+        .inv-info-box strong { display: inline-block; width: 110px; color: #333; }
 
         table.inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
-        .inv-table th, .inv-table td { border: 1px solid #bdc3c7; padding: 10px; text-align: left; }
-        .inv-table th { background-color: #ecf0f1; font-weight: bold; text-align: center; color: #2c3e50;}
+        .inv-table th, .inv-table td { border: 1px solid #333; padding: 10px; text-align: left; }
+        .inv-table th { background-color: #f0f0f0; font-weight: bold; text-align: center; color: #333;}
         .text-right { text-align: right !important; }
         .text-center { text-align: center !important; }
-        .total-row { font-weight: bold; background-color: #ecf0f1; font-size: 14px;}
+        .total-row { font-weight: bold; background-color: #f0f0f0; font-size: 14px;}
 
-        .inv-payment { font-size: 13px; margin-bottom: 20px; padding: 12px; background-color: #f9f9f9; border-left: 4px solid #27ae60;}
-        .inv-payment strong { display: block; margin-bottom: 5px; color: #2c3e50;}
+        .inv-payment { font-size: 13px; margin-bottom: 20px; padding: 12px; background-color: #f9f9f9; border-left: 4px solid #053b0e;}
+        .inv-payment strong { display: block; margin-bottom: 5px; color: #053b0e;}
 
-        .inv-notes { font-size: 12px; margin-bottom: 30px; color: #555;}
-        .inv-notes h4 { margin: 0 0 8px 0; font-size: 13px; color: #2c3e50; }
+        .inv-notes { font-size: 12px; margin-bottom: 30px; color: #333;}
+        .inv-notes h4 { margin: 0 0 8px 0; font-size: 13px; color: #333; }
         .inv-notes ul { margin: 0; padding-left: 15px; }
         
         /* Posisi Absolut Kunci di Bawah */
@@ -126,8 +126,8 @@
             right: 40px;
         }
         
-        .inv-footer { border-top: 2px solid #2c3e50; padding-top: 15px; text-align: center; font-size: 12px; color: #7f8c8d;}
-        .inv-footer strong { color: #2c3e50; display: block; font-size: 14px; margin-bottom: 5px;}
+        .inv-footer { border-top: 2px solid #053b0e; padding-top: 15px; text-align: center; font-size: 12px; color: #555;}
+        .inv-footer strong { color: #053b0e; display: block; font-size: 14px; margin-bottom: 5px;}
     </style>
 </head>
 <body>
@@ -174,9 +174,11 @@
         <hr style="border:0; border-top:1px solid #eee; margin: 15px 0;">
 
         <div class="row-group">
-            <div class="form-group"><label>Deskripsi Biaya Tambahan</label><input type="text" id="inKetBiaya" placeholder="Misal: Listrik/Deposit" oninput="updateInvoice()"></div>
+            <div class="form-group"><label>Ket. Biaya Tambahan</label><input type="text" id="inKetBiaya" placeholder="Listrik/Deposit" oninput="updateInvoice()"></div>
             <div class="form-group"><label>Nominal Tambahan Rp</label><input type="number" id="inBiayaTambahan" value="0" min="0" oninput="updateInvoice()"></div>
         </div>
+        
+        <div class="form-group"><label>Diskon (Rp)</label><input type="number" id="inDiskon" value="0" min="0" oninput="updateInvoice()"></div>
 
         <div class="form-group">
             <label>Status Pembayaran</label>
@@ -194,9 +196,7 @@
             
             <div class="inv-top-header">
                 <div class="inv-logo">
-                    <!-- Ganti teks atau masukkan tag <img> untuk logo kos Anda di sini -->
-                    <h1>KOS YOGYA MAPAN</h1>
-                    <p>Hunian Nyaman, Aman, & Strategis</p>
+                    <img src="https://raw.githubusercontent.com/pondokyogya3id/invoice/main/logo.png" alt="Logo Pondok Yogya 3">
                 </div>
                 <div class="inv-header-right">
                     <div class="inv-title" id="outJenisDokumen">INVOICE</div>
@@ -208,7 +208,7 @@
                 <div class="inv-info-box">
                     <strong>DATA PENYEWA:</strong><br>
                     Nama &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span id="outNama" style="font-weight: bold;">-</span><br>
-                    Nomor Kamar : <span id="outKamar" style="font-weight: bold; color: #c0392b;">-</span>
+                    Nomor Kamar : <span id="outKamar" style="font-weight: bold;">-</span>
                 </div>
                 <div class="inv-info-box text-right">
                     <strong>DETAIL TAGIHAN:</strong><br>
@@ -240,25 +240,27 @@
                         <td class="text-center">-</td>
                         <td class="text-right" id="outBiayaTambahan">-</td>
                     </tr>
+                    <tr id="rowDiskon" style="display: none; color: #cc0000; font-weight: bold;">
+                        <td colspan="3" class="text-right">Potongan Harga (Diskon)</td>
+                        <td class="text-right" id="outDiskon">-</td>
+                    </tr>
                     <tr class="total-row">
                         <td colspan="3" class="text-right">TOTAL KESELURUHAN</td>
-                        <td class="text-right" id="outTotal">Rp. 0</td>
+                        <td class="text-right" id="outTotal">Rp 0</td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="inv-payment">
-                <strong>Informasi Pembayaran / Transfer:</strong>
-                Bank BCA: 1234567890 a.n. Pemilik Kos<br>
-                Bank Mandiri: 0987654321 a.n. Pemilik Kos<br>
-                <em style="font-size: 11px;">*Harap cantumkan Nama dan No Kamar pada berita transfer.</em>
+                <strong>Metode Pembayaran / Transfer:</strong>
+                Bank BCA: 8915156505 a.n. Aufira Kusmayda<br>
+                <em style="font-size: 11px;">*Harap cantumkan Nama dan No Kamar pada berita transfer sebagai referensi transaksi sah.</em>
             </div>
 
             <div class="inv-notes">
                 <h4>Syarat & Ketentuan Kos:</h4>
                 <ul>
                     <li>Pembayaran sewa kos wajib dilunasi selambat-lambatnya pada tanggal jatuh tempo.</li>
-                    <li>Keterlambatan pembayaran dapat dikenakan denda sesuai kesepakatan awal.</li>
                     <li>Biaya sewa yang sudah dibayarkan tidak dapat dikembalikan (non-refundable).</li>
                     <li>Penyewa wajib menjaga kebersihan, ketertiban, dan fasilitas umum kos.</li>
                     <li>Kerusakan fasilitas kamar yang disebabkan oleh kelalaian penyewa menjadi tanggung jawab penyewa.</li>
@@ -267,9 +269,9 @@
 
             <div class="footer-wrapper">
                 <div class="inv-footer">
-                    <strong>KOS YOGYA MAPAN</strong>
-                    0812-XXXX-XXXX | email.kos@contoh.com<br>
-                    Jl. Alamat Kos Lengkap No. 99, Yogyakarta, Indonesia
+                    <strong>PONDOK YOGYA 3</strong>
+                    089501808049 (Marketing) | pondokyogya3.id@gmail.com<br>
+                    Jl. Rajawali Raya, No.11 Beran Lor, Tridadi, Kec. Sleman, DIY
                 </div>
             </div>
 
@@ -291,16 +293,16 @@
 
     function generateNomorInvoice() {
         const today = new Date();
-        const tahun = String(today.getFullYear()).slice(-2);
+        const tahun = today.getFullYear();
         const bulan = String(today.getMonth() + 1).padStart(2, '0');
         const randomStr = String(Math.floor(Math.random() * 900) + 100); 
-        return `KOS${tahun}${bulan}-${randomStr}`;
+        return `PY3-KOS/${tahun}/${bulan}/${randomStr}`;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('outNoInv').innerText = "INV/" + generateNomorInvoice();
         document.getElementById('outTglInv').innerText = formatTanggal(new Date());
-        updateInvoice(); // Panggil sekali di awal untuk mengisi nilai default
+        updateInvoice();
     });
 
     function updateInvoice() {
@@ -311,33 +313,33 @@
         const checkout = document.getElementById('inCheckout').value;
         const status = document.getElementById('inStatus').value;
 
-        const tipeSewa = document.getElementById('inTipeSewa').value; // Bulan, Hari, Tahun
+        const tipeSewa = document.getElementById('inTipeSewa').value;
         const durasi = parseInt(document.getElementById('inDurasi').value) || 0;
         const harga = parseInt(document.getElementById('inHarga').value) || 0;
         
         const ketBiaya = document.getElementById('inKetBiaya').value || "Biaya Tambahan";
         const biayaTambahan = parseInt(document.getElementById('inBiayaTambahan').value) || 0;
+        const diskon = parseInt(document.getElementById('inDiskon').value) || 0;
 
-        // Kalkulasi
         const subSewa = durasi * harga;
-        const total = subSewa + biayaTambahan;
+        
+        let total = subSewa + biayaTambahan - diskon;
+        if (total < 0) total = 0;
 
-        // Update Header
         document.getElementById('outJenisDokumen').innerText = jenisDokumen;
-        const currentRef = document.getElementById('outNoInv').innerText.split('/').pop();
+        
+        const currentRef = document.getElementById('outNoInv').innerText.split('/').slice(1).join('/');
         if (jenisDokumen === 'INVOICE') {
             document.getElementById('outNoInv').innerText = 'INV/' + currentRef;
         } else {
             document.getElementById('outNoInv').innerText = 'KWT/' + currentRef;
         }
 
-        // Update Info Penyewa
         document.getElementById('outNama').innerText = nama;
         document.getElementById('outKamar').innerText = kamar;
         document.getElementById('outCheckin').innerText = formatTanggal(checkin);
         document.getElementById('outCheckout').innerText = formatTanggal(checkout);
 
-        // Update Tabel Sewa
         let teksTipe = tipeSewa === 'Bulan' ? 'Bulanan' : (tipeSewa === 'Hari' ? 'Harian' : 'Tahunan');
         document.getElementById('outTeksTipe').innerText = teksTipe;
         document.getElementById('outDurasi').innerText = durasi;
@@ -345,7 +347,6 @@
         document.getElementById('outHargaSatuan').innerText = formatRp(harga);
         document.getElementById('outSubSewa').innerText = formatRp(subSewa);
 
-        // Update Tabel Tambahan
         if (biayaTambahan > 0) {
             document.getElementById('rowTambahan').style.display = 'table-row';
             document.getElementById('outKetBiaya').innerText = ketBiaya;
@@ -354,9 +355,15 @@
             document.getElementById('rowTambahan').style.display = 'none';
         }
 
+        if (diskon > 0) {
+            document.getElementById('rowDiskon').style.display = 'table-row';
+            document.getElementById('outDiskon').innerText = "- " + formatRp(diskon);
+        } else {
+            document.getElementById('rowDiskon').style.display = 'none';
+        }
+
         document.getElementById('outTotal').innerText = formatRp(total);
 
-        // Update Status Lunas/Belum
         const elStatus = document.getElementById('outStatus');
         if (status === 'lunas') {
             elStatus.innerHTML = 'Status : <span class="text-lunas">LUNAS</span>';
@@ -365,7 +372,6 @@
         }
     }
 
-    // Fungsi Cetak PDF anti-kosong (JANGAN DIUBAH LOGIKANYA)
     function cetakPDF() {
         const formPanel = document.querySelector('.form-panel');
         const wrapper = document.querySelector('.invoice-wrapper');
@@ -384,7 +390,7 @@
 
         const opt = {
             margin:       0,
-            filename:     `${jenis}_Kos_Kamar_${kamar}_${nama}.pdf`,
+            filename:     `${jenis}_PY3_Kos_Kamar_${kamar}_${nama}.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { 
                 scale: 2, 
